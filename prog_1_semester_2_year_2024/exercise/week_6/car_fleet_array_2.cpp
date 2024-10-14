@@ -32,7 +32,8 @@ int main() {
   // Initialize each car
   fleet[0] = Car(1, 2);
   fleet[1] = Car(3, 4);
-  fleet[2] = Car(5, 6); // Show the fleet
+  fleet[2] = Car(5, 6);
+  
   Show(fleet, size);
 
   // Free allocated memory
