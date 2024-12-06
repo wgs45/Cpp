@@ -1,60 +1,89 @@
 #include <iostream>
-#include <string>
 #define SIZE 15
-// using namespace std;
+using namespace std;
 
-// Custom queue classs with a template to support different data types
-template <class T> class CustomQueue {
-  T *arr; // Dynamic array to store elements
-  int capacity, front, rear, count;
+template <class T> class stack {
+  T *arr;
+  int top;
+  int capacity;
 
 public:
-  // Initialized constructor with the given size value
-  CustomQueue(int size = SIZE);
+  stack(int size = SIZE);
 
-  // Destructor to free dynamically allocated memory
-  ~CustomQueue();
-
-  // Function to remove an element from the front of the queue
-  void dequeue();
-
-  // Function to add an element to the rear of the queue
-  void enqueue(T item);
-
-  // Funtion to return the elemennt at the front of the queue
+  void push(T);
+  T pop();
   T peek();
 
-  int size(); // Function to return the current number of elements in the queue
-  bool isEmpty(); // Function to check if queue is emptu
-  bool isFull();  // Function to check if queue is full
+  int size();
+  bool isEmpty();
+  bool isFull();
+
+  ~stack() { delete[] arr; }
 };
 
-// Constructor to Initializes the queue
-template <class T> CustomQueue<T>::CustomQueue(int size) {
-  arr = new T[size]; // Allocate memory for the queue
-
-  // Initialized value
+template <class T> stack<T>::stack(int size) {
+  arr = new T[size];
   capacity = size;
-  front = 0;
-  rear = -1;
-  count = 0;
+  top = -1;
 }
 
-// Destructor to frees the allocated memmory
-template <class T> CustomQueue<T>::~CostumQueue() {
-  delete[] arr; // Free dynamically allocated memmory
-}
-
-// Removes an element from the front of the queue
-template <class T> void CustomQueue<T>::dequeue() {
-  if (isEmpty()) {
-    std::cout << "Underflow\nProgram Terminated\n";
+template <class T> void stack<T>::push(T x) {
+  if (isFull()) {
+    cout << "Overflow\nProgram Terminated\n";
     exit(1);
+  }
+
+  cout << "Inserting " << x << endl;
+  arr[++top] = x;
+}
+
+template <class T> T stack<T>::pop() {
+  if (isEmpty()) {
+    cout << "Underflow\nProgram Terminated\n";
+    exit(2);
+  }
+
+  cout << "Removing " << peek() << endl;
+
+  return arr[top--];
+}
+
+template <class T> T stack<T>::peek() {
+  if (!isEmpty()) {
+    return arr[top];
+  } else {
+    exit(3);
   }
 }
 
-int main() {
-  int i;
+template <class T> int stack<T>::size() { return top + 1; }
 
+template <class T> bool stack<T>::isEmpty() { return top == -1; }
+
+template <class T> bool stack<T>::isFull() { return top == capacity - 1; }
+
+int main() {
+
+  stack<string> pt(2);
+
+  pt.push("A");
+  pt.push("B");
+
+  pt.pop();
+  pt.pop();
+
+  pt.push("C");
+
+  cout << "The top element is " << pt.peek() << endl;
+
+  cout << "The stack size is " << pt.size() << endl;
+
+  pt.pop();
+
+  if (pt.isEmpty()) {
+    cout << "The stack is empty\n";
+  } else {
+    cout << "The stack is not empty\n";
+  }
   return 0;
 }
