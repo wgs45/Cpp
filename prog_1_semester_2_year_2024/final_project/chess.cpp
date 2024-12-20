@@ -382,6 +382,11 @@ public:
       }
     }
 
+    if (kingRow == -1 || kingCol == -1) {
+      cerr << "Error: King not found on the board!" << endl;
+      return false;
+    }
+
     // Check if any opposing piece can move to the king's position
     for (int i = 0; i < 8; ++i) {
       for (int j = 0; j < 8; ++j) {
