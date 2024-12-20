@@ -325,6 +325,24 @@ public:
     return board[row][col];
   }
 
+  // Function to check if a piece can capture another
+  bool canCapture(int startRow, int startCol, int endRow, int endCol) {
+    ChessPiece *attacker = board[startRow][startCol];
+    ChessPiece *target = board[endRow][endCol];
+
+    // Ensure attacker exists
+    if (!attacker)
+      return false;
+
+    // Ensure target exists and is of opposite color
+    if (target && attacker->isWhite() == target->isWhite()) {
+      cout << "Can't capture piece with the same color!" << endl;
+      return false;
+    }
+
+    return true;
+  }
+
   bool movePiece(int startRow, int startCol, int endRow, int endCol) {
     ChessPiece *piece = board[startRow][startCol];
 
@@ -338,8 +356,13 @@ public:
       return false;
     }
 
-    board[endRow][endCol] = piece;
-    board[startRow][startCol] = nullptr;
+    if (!canCapture(startRow, startCol, endRow, endCol)) {
+      return false; // Prevent move if friendly fire is detected
+    }
+
+    delete board[endRow][endCol];        // Remove the target piece if present
+    board[endRow][endCol] = piece;       // Move the piece to the target
+    board[startRow][startCol] = nullptr; // Clear the starting square
     return true;
   }
 
