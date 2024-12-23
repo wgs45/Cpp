@@ -27,6 +27,9 @@ public:
   virtual char
   getSymbol() const = 0; // Pure virtual function to get the piece's symbol
   virtual bool isWhite() const = 0; // Determine if the piece is white or black
+
+  // Vector<vector<ChessPiece *>> represent the chessboard game
+  // This method are used to easily access chesspiece positions
   virtual bool isValidMove(
       int startRow, int startCol, int endRow, int endCol,
       const vector<vector<ChessPiece *>> &board) = 0; // Virtual move validation
@@ -246,7 +249,7 @@ public:
   }
 };
 
-// Board class to manafe chessboard
+// Board class to manage chessboard
 class Board {
   vector<vector<ChessPiece *>> board;
 
@@ -373,6 +376,9 @@ public:
     for (int i = 0; i < 8; ++i) {
       for (int j = 0; j < 8; ++j) {
         ChessPiece *piece = board[i][j];
+
+        // Dynamic cast accurately checks if the pointer is actually points to
+        // the King piece Else it will return nullptr
         if (piece && piece->isWhite() == isWhite &&
             dynamic_cast<King *>(piece)) {
           kingRow = i;
@@ -402,6 +408,7 @@ public:
     return false;
   }
 
+  // Check if the moves is valid
   bool hasValidMoves(bool isWhite) {
     for (int i = 0; i < 8; ++i) {
       for (int j = 0; j < 8; ++j) {
@@ -452,6 +459,10 @@ public:
     board.printBoard();
     string move;
 
+    cout << "How to play: position + destination, ex: a2a3" << endl;
+    cout << "ctrl + c -> exit the program" << endl;
+    cout << "Good luck!" << endl;
+    cout << endl;
     while (true) { // Infinite loop until the user quits
       // Display the current player's turn
       cout << (isWhiteTurn ? "White's turn: " : "Black's turn: ");
