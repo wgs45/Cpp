@@ -55,7 +55,7 @@ int main() {
   std::cout << "All students: " << std::endl;
   printStudent(students);
 
-  // Clean uo the reamining students
+  // Clean up the reamining students
   for (auto &student : students) {
     delete student;
   }
