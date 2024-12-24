@@ -1,17 +1,17 @@
-// µ{¦¡³]­p2¦è¬v´Ñ¹CÀ¸
+// ç¨‹å¼è¨­è¨ˆ2è¥¿æ´‹æ£‹éŠæˆ²
 
-#include <cmath> // ¥Î©ó¼Æ¾Ç­pºâ
+#include <cmath> // ç”¨æ–¼æ•¸å­¸è¨ˆç®—
 // #include <csignal>
 #include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
 
-// ±Ğ¾Ç½Òµ{
-// ¿é¤J¦ì¸m½s¸¹+¥Øªº¦a½s¸¹
-// ¨Ò¦p¡Ga2a3 => ±N¥Õ´Ñ²¾°Ê 1 ®æ
+// æ•™å­¸èª²ç¨‹
+// è¼¸å…¥ä½ç½®ç·¨è™Ÿ+ç›®çš„åœ°ç·¨è™Ÿ
+// ä¾‹å¦‚ï¼ša2a3 => å°‡ç™½æ£‹ç§»å‹• 1 æ ¼
 
-// ²×ºİ¤å¦rÃC¦âªº ANSI Âà¸q½X
+// çµ‚ç«¯æ–‡å­—é¡è‰²çš„ ANSI è½‰ç¾©ç¢¼
 #define RESET "\033[0m"
 #define WHITE "\033[37m"
 #define CYAN "\033[36m"
@@ -21,23 +21,23 @@ using namespace std;
 #define BLUE "\033[34m"
 #define MAGENTA "\033[35m"
 
-// ChessPiece ªºBase class
+// ChessPiece çš„Base class
 class ChessPiece {
 public:
   virtual char
-  getSymbol() const = 0; // ¯Âµê¨ç¼Æ¨ú±o´Ñ¤lªº²Å¸¹
-  virtual bool isWhite() const = 0; // ½T©w³o¥ó§@«~¬O¥Õ¦âÁÙ¬O¶Â¦â
+  getSymbol() const = 0; // ç´”è™›å‡½æ•¸å–å¾—æ£‹å­çš„ç¬¦è™Ÿ
+  virtual bool isWhite() const = 0; // ç¢ºå®šé€™ä»¶ä½œå“æ˜¯ç™½è‰²é‚„æ˜¯é»‘è‰²
 
-  // Vector<vector<ChessPiece *>> ¥Nªí®à¹C
-  // ¦¹¤èªk¥Î©ó»´ÃP¦s¨ú´Ñ¤l¦ì¸m
+  // Vector<vector<ChessPiece *>> ä»£è¡¨æ¡ŒéŠ
+  // æ­¤æ–¹æ³•ç”¨æ–¼è¼•é¬†å­˜å–æ£‹å­ä½ç½®
   virtual bool isValidMove(
       int startRow, int startCol, int endRow, int endCol,
-      const vector<vector<ChessPiece *>> &board) = 0; // µêÀÀ²¾°ÊÅçÃÒ
+      const vector<vector<ChessPiece *>> &board) = 0; // è™›æ“¬ç§»å‹•é©—è­‰
   virtual ~ChessPiece() {}
 };
 
-// ¨C­Ó¤ù¬qªº­l¥ÍÃş§O
-// ´Ñ§L 
+// æ¯å€‹ç‰‡æ®µçš„è¡ç”Ÿé¡åˆ¥
+// æ£‹å…µ 
 class Pawn : public ChessPiece {
   bool white;
 
@@ -48,30 +48,30 @@ public:
 
   bool isValidMove(int startRow, int startCol, int endRow, int endCol,
                    const vector<vector<ChessPiece *>> &board) override {
-    // ¥Õ´Ñ§L¦V¤W²¾°Ê¨ì´Ñ½L (+1)¡A¦Ó¶Â´Ñ§L¦V¤U²¾°Ê¨ì
-    // ´Ñ½L (-1)
+    // ç™½æ£‹å…µå‘ä¸Šç§»å‹•åˆ°æ£‹ç›¤ (+1)ï¼Œè€Œé»‘æ£‹å…µå‘ä¸‹ç§»å‹•åˆ°
+    // æ£‹ç›¤ (-1)
     int direction = white ? 1 : -1;
 
-    // ±¡ªp 1: ÃM§L¦V«e²¾°Ê¤@®æ
-    // ½T«O¦C¤£·|§ïÅÜ¨Ã¥B¤¤¶¡ªº¥Ø¼Ğ¤è®æ¬OªÅªº
+    // æƒ…æ³ 1: é¨å…µå‘å‰ç§»å‹•ä¸€æ ¼
+    // ç¢ºä¿åˆ—ä¸æœƒæ”¹è®Šä¸¦ä¸”ä¸­é–“çš„ç›®æ¨™æ–¹æ ¼æ˜¯ç©ºçš„
     if (startCol == endCol && startRow + direction == endRow &&
         !board[endRow][endCol]) {
       return true;
     }
 
-    // ±¡ªp 2: ÃM§L²Ä¤@¨B¥i¥H¬O¨â­Ó¤è®æ
-    // ½T«O¦C¤£·|§ïÅÜ¨Ã¥B¤¤¶¡ªº¥Ø¼Ğ¤è®æ¬OªÅªº
+    // æƒ…æ³ 2: é¨å…µç¬¬ä¸€æ­¥å¯ä»¥æ˜¯å…©å€‹æ–¹æ ¼
+    // ç¢ºä¿åˆ—ä¸æœƒæ”¹è®Šä¸¦ä¸”ä¸­é–“çš„ç›®æ¨™æ–¹æ ¼æ˜¯ç©ºçš„
     if (startCol == endCol && startRow + 2 * direction == endRow &&
         !board[startRow + direction][startCol] && !board[endRow][endCol]) {
       return true;
     }
 
-    // µL®Ä²¾°Ê
+    // ç„¡æ•ˆç§»å‹•
     return false;
   }
 };
 
-// ¨® 
+// è»Š 
 class Rook : public ChessPiece {
   bool white;
 
@@ -83,22 +83,22 @@ public:
   bool isValidMove(int startRow, int startCol, int endRow, int endCol,
                    const vector<vector<ChessPiece *>> &board) override {
 
-    // ¥u¤¹³\ªuª½½u¡]¦æ©Î¦C¡^²¾°Ê
+    // åªå…è¨±æ²¿ç›´ç·šï¼ˆè¡Œæˆ–åˆ—ï¼‰ç§»å‹•
     if (startRow != endRow && startCol != endCol)
       return false;
 
-    // ±¡ªp1¡G¨®««ª½²¾°Ê
-    // ÀË¬d¸ô®|¬O§_ºZ³q¡]¦æ¡^
+    // æƒ…æ³1ï¼šè»Šå‚ç›´ç§»å‹•
+    // æª¢æŸ¥è·¯å¾‘æ˜¯å¦æš¢é€šï¼ˆè¡Œï¼‰
     if (startRow == endRow) {
       int i;
       for (i = min(startCol, endCol) + 1; i < max(startCol, endCol); i++) {
         if (board[startRow][i])
-          return false; // ³Q¾×¦í¤F¸ô
+          return false; // è¢«æ“‹ä½äº†è·¯
       }
     }
 
-    // ª¬ªp2¡G¨®¤ô¥­²¾°Ê
-    // ÀË¬d¸ô®|¬O§_ºZ³q¡]¦C¡^
+    // ç‹€æ³2ï¼šè»Šæ°´å¹³ç§»å‹•
+    // æª¢æŸ¥è·¯å¾‘æ˜¯å¦æš¢é€šï¼ˆåˆ—ï¼‰
     if (startCol == endCol) {
       int i;
       for (i = min(startRow, endRow) + 1; i < max(startRow, endRow); ++i) {
@@ -107,12 +107,12 @@ public:
       }
     }
 
-    // ¦³®Ä²¾°Ê 
+    // æœ‰æ•ˆç§»å‹• 
     return true;
   }
 };
 
-// ÃM¤h 
+// é¨å£« 
 class Knight : public ChessPiece {
   bool white;
 
@@ -122,30 +122,30 @@ public:
   bool isWhite() const override { return white; }
 
   /*
-  ÃM¤h¥H¡§L¡¨§Î²¾°Ê¡G
-      - ¤@­Ó¤è¦V¡]¦æ©Î¦C¡^ªº¨â­Ó¥¿¤è§Î©M¤@­Ó¥¿¤è§Î««ª½¡C
-      - ³o·|¾É­P¦³®Ä²¾°Êªº¨â­Ó¥i¯à±ø¥ó¡G
-      1.²¾°Ê2¦æ1¦C
-      2. ²¾°Ê2¦C1¦æ
+  é¨å£«ä»¥â€œLâ€å½¢ç§»å‹•ï¼š
+      - ä¸€å€‹æ–¹å‘ï¼ˆè¡Œæˆ–åˆ—ï¼‰çš„å…©å€‹æ­£æ–¹å½¢å’Œä¸€å€‹æ­£æ–¹å½¢å‚ç›´ã€‚
+      - é€™æœƒå°è‡´æœ‰æ•ˆç§»å‹•çš„å…©å€‹å¯èƒ½æ¢ä»¶ï¼š
+      1.ç§»å‹•2è¡Œ1åˆ—
+      2. ç§»å‹•2åˆ—1è¡Œ
   */
 
   bool isValidMove(int startRow, int startCol, int endRow, int endCol,
                    const vector<vector<ChessPiece *>> &board) override {
 
-    // ±¡ªp1¡G2¦æ+1¦C
+    // æƒ…æ³1ï¼š2è¡Œ+1åˆ—
     if (abs(startRow - endRow) == 2 && abs(startCol - endCol) == 1)
       return true;
 
-    // ±¡ªp2¡G2¦C+1¦æ
+    // æƒ…æ³2ï¼š2åˆ—+1è¡Œ
     if (abs(startRow - endRow) == 1 && abs(startCol - endCol) == 2)
       return true;
 
-    // µL®Ä²¾°Ê
+    // ç„¡æ•ˆç§»å‹•
     return false;
   }
 };
 
-// ¥D±Ğ 
+// ä¸»æ•™ 
 class Bishop : public ChessPiece {
   bool white;
 
@@ -155,42 +155,42 @@ public:
   bool isWhite() const override { return white; }
 
   /*
-    ¥D±Ğ¦V¥ô·N¤è¦V¹ï¨¤²¾°Ê¡C
-      - ¦æÅÜ¤Æ©M¦CÅÜ¤Æ¤§¶¡ªºµ´¹ï®t¥²¶·¬O¥­µ¥ªº¡C
-      - ¥t¥~¡A°_©l¤è®æ©M¥Ø¼Ğ¤è®æ¤§¶¡ªº¸ô¥²¶·²M·¡¡C
+    ä¸»æ•™å‘ä»»æ„æ–¹å‘å°è§’ç§»å‹•ã€‚
+      - è¡Œè®ŠåŒ–å’Œåˆ—è®ŠåŒ–ä¹‹é–“çš„çµ•å°å·®å¿…é ˆæ˜¯å¹³ç­‰çš„ã€‚
+      - å¦å¤–ï¼Œèµ·å§‹æ–¹æ ¼å’Œç›®æ¨™æ–¹æ ¼ä¹‹é–“çš„è·¯å¿…é ˆæ¸…æ¥šã€‚
   */
 
   bool isValidMove(int startRow, int startCol, int endRow, int endCol,
                    const vector<vector<ChessPiece *>> &board) override {
 
-    // ÀË¬d²¾°Ê¬O§_¬°¹ï¨¤½u
+    // æª¢æŸ¥ç§»å‹•æ˜¯å¦ç‚ºå°è§’ç·š
     if (abs(startRow - endRow) != abs(startCol - endCol))
       return false;
 
-    // ½T©w¦æ©M¦Cªº²¾°Ê¤è¦V
-    // (+1) ¦V¤U¡A(-1) ¦V¤W
+    // ç¢ºå®šè¡Œå’Œåˆ—çš„ç§»å‹•æ–¹å‘
+    // (+1) å‘ä¸‹ï¼Œ(-1) å‘ä¸Š
     int rowDirection = (endRow > startRow) ? 1 : -1;
-    // (+1) ¦V¥k¡A(-1) ¦V¥ª
+    // (+1) å‘å³ï¼Œ(-1) å‘å·¦
     int colDirection = (endCol > startCol) ? 1 : -1;
 
-    // ±q²¾°Ê¤è¦Vªº²Ä¤@­Ó¤è®æ¶}©l
+    // å¾ç§»å‹•æ–¹å‘çš„ç¬¬ä¸€å€‹æ–¹æ ¼é–‹å§‹
     int row = startRow + rowDirection;
     int col = startCol + colDirection;
 
-    // ¬ï¹L¸ô®|¨ì¹F¥Ø¼Ğ¤è®æ
+    // ç©¿éè·¯å¾‘åˆ°é”ç›®æ¨™æ–¹æ ¼
     while (row != endRow && col != endCol) {
       if (board[row][col])
-        return false;      // ³Q¾×¦í¤F¸ô
-      row += rowDirection; // ªu"¦æ"¤è¦V²¾°Ê¨ì¤U¤@­Ó¤è®æ
-      col += colDirection; // ªu"¦C"¤è¦V²¾°Ê¨ì¤U¤@­Ó¤è®æ
+        return false;      // è¢«æ“‹ä½äº†è·¯
+      row += rowDirection; // æ²¿"è¡Œ"æ–¹å‘ç§»å‹•åˆ°ä¸‹ä¸€å€‹æ–¹æ ¼
+      col += colDirection; // æ²¿"åˆ—"æ–¹å‘ç§»å‹•åˆ°ä¸‹ä¸€å€‹æ–¹æ ¼
     }
 
-    // ¦³®Ä²¾°Ê 
+    // æœ‰æ•ˆç§»å‹• 
     return true;
   }
 };
 
-// ¬Ó¦Z 
+// çš‡å 
 class Queen : public ChessPiece {
   bool white;
 
@@ -200,25 +200,25 @@ public:
   bool isWhite() const override { return white; }
 
   /*
-    ¬Ó¦Z¥i¥H¹³¨®©M¥D±Ğ¤@¼Ë²¾°Ê¡G
-      - ¥¦¥i¥H¤ô¥­¡B««ª½©Î²¾°Ê¥ô·N¼Æ¶qªº¤è¶ô¹ï¨¤½u¡C
-      - ¬°¤FÁ×§Kµ{¦¡½X­«½Æ¡A±q¨®­«½Æ¨Ï¥Î isValidMove ÅŞ¿è©M¥D±Ğclasses¡C
+    çš‡åå¯ä»¥åƒè»Šå’Œä¸»æ•™ä¸€æ¨£ç§»å‹•ï¼š
+      - å®ƒå¯ä»¥æ°´å¹³ã€å‚ç›´æˆ–ç§»å‹•ä»»æ„æ•¸é‡çš„æ–¹å¡Šå°è§’ç·šã€‚
+      - ç‚ºäº†é¿å…ç¨‹å¼ç¢¼é‡è¤‡ï¼Œå¾è»Šé‡è¤‡ä½¿ç”¨ isValidMove é‚è¼¯å’Œä¸»æ•™classesã€‚
   */
 
   bool isValidMove(int startRow, int startCol, int endRow, int endCol,
                    const vector<vector<ChessPiece *>> &board) override {
 
-    // «Ø¥ßÁ{®É ¨® ©M ¥D±Ğ ª«¥ó¥H­«½Æ¨Ï¥Î¥¦­Ìªº¦æ°ÊÅŞ¿è
-    Rook rook(white);     // ¨®ªº²¾°Ê¡]ª½½u¡^
-    Bishop bishop(white); // ¥D±Ğªº²¾°Ê¡]¹ï¨¤½u¡^
+    // å»ºç«‹è‡¨æ™‚ è»Š å’Œ ä¸»æ•™ ç‰©ä»¶ä»¥é‡è¤‡ä½¿ç”¨å®ƒå€‘çš„è¡Œå‹•é‚è¼¯
+    Rook rook(white);     // è»Šçš„ç§»å‹•ï¼ˆç›´ç·šï¼‰
+    Bishop bishop(white); // ä¸»æ•™çš„ç§»å‹•ï¼ˆå°è§’ç·šï¼‰
 
-    // ¦pªG¹ï¨®©Î¥D±Ğ³£¦³®Ä¡A«h¸Ó²¾°Ê¦³®Ä
+    // å¦‚æœå°è»Šæˆ–ä¸»æ•™éƒ½æœ‰æ•ˆï¼Œå‰‡è©²ç§»å‹•æœ‰æ•ˆ
     return rook.isValidMove(startRow, startCol, endRow, endCol, board) ||
            bishop.isValidMove(startRow, startCol, endRow, endCol, board);
   }
 };
 
-// °ê¤ı 
+// åœ‹ç‹ 
 class King : public ChessPiece {
   bool white;
 
@@ -228,26 +228,26 @@ public:
   bool isWhite() const override { return white; }
 
   /*
-    °ê¤ı¥i¥H¦V¥ô·N¤è¦V²¾°Ê¤@®æ¡G
-      - ¤ô¥­¡B««ª½©Î¹ï¨¤½u¡C
-      - ³o·N¨ıµÛ°_©l¦ì¸m©Mµ²§ô¦ì¸m¤§¶¡ªº®t²§¡]¦æ©M¦C¡^³Ì¦h¥u¯à¬° 1¡C
+    åœ‹ç‹å¯ä»¥å‘ä»»æ„æ–¹å‘ç§»å‹•ä¸€æ ¼ï¼š
+      - æ°´å¹³ã€å‚ç›´æˆ–å°è§’ç·šã€‚
+      - é€™æ„å‘³è‘—èµ·å§‹ä½ç½®å’ŒçµæŸä½ç½®ä¹‹é–“çš„å·®ç•°ï¼ˆè¡Œå’Œåˆ—ï¼‰æœ€å¤šåªèƒ½ç‚º 1ã€‚
   */
 
   bool isValidMove(int startRow, int startCol, int endRow, int endCol,
                    const vector<vector<ChessPiece *>> &board) override {
 
-    // ½T«O¦U­Ó¤è¦Vªº²¾°Ê³£¦b¤@®æ¤º
+    // ç¢ºä¿å„å€‹æ–¹å‘çš„ç§»å‹•éƒ½åœ¨ä¸€æ ¼å…§
     return (abs(startRow - endRow) <= 1 && abs(startCol - endCol) <= 1);
   }
 };
 
-// Board Ãş§O¨ÓºŞ²z´Ñ½L
+// Board é¡åˆ¥ä¾†ç®¡ç†æ£‹ç›¤
 class Board {
   vector<vector<ChessPiece *>> board;
 
 public:
   Board() {
-    // nullptr => ªÅ¤è¶ô
+    // nullptr => ç©ºæ–¹å¡Š
     board.resize(8, vector<ChessPiece *>(8, nullptr));
     initializeBoard();
   }
@@ -256,7 +256,7 @@ public:
     int i, j;
     for (i = 0; i < 8; ++i) {
       for (j = 0; j < 8; ++j) {
-        delete board[i][j]; // ²M²z°ÊºA¤À°tªº°O¾ĞÅé
+        delete board[i][j]; // æ¸…ç†å‹•æ…‹åˆ†é…çš„è¨˜æ†¶é«”
       }
     }
   }
@@ -264,7 +264,7 @@ public:
   void initializeBoard() {
     int i;
 
-    // ªì©l¤Æ¥Õ¦â´Ñ¤l
+    // åˆå§‹åŒ–ç™½è‰²æ£‹å­
     for (i = 0; i < 8; i++) {
       board[1][i] = new Pawn(true);
     }
@@ -275,7 +275,7 @@ public:
     board[0][3] = new Queen(true);
     board[0][4] = new King(true);
 
-    // ªì©l¤Æ¶Â¦â´Ñ¤l
+    // åˆå§‹åŒ–é»‘è‰²æ£‹å­
     for (i = 0; i < 8; i++) {
       board[6][i] = new Pawn(false);
     }
@@ -297,13 +297,13 @@ public:
         if (board[i][j]) {
           if (isupper(board[i][j]->getSymbol())) {
             cout << WHITE << board[i][j]->getSymbol() << " "
-                 << RESET; // ¥Õ´Ñ¤l
+                 << RESET; // ç™½æ£‹å­
           } else {
             cout << CYAN << board[i][j]->getSymbol() << " "
-                 << RESET; // ¶Â´Ñ¤l
+                 << RESET; // é»‘æ£‹å­
           }
         } else {
-          cout << ". "; // ªÅ¤è¶ô
+          cout << ". "; // ç©ºæ–¹å¡Š
         }
       }
       cout << GREEN << "|" << RESET << " " << YELLOW << i + 1 << RESET << endl;
@@ -320,16 +320,16 @@ public:
     return board[row][col];
   }
 
-  // ÀË¬d¤@­Ó´Ñ¤l¬O§_¥i¥H®·Àò¥t¤@­Ó´Ñ¤lªº¨ç¼Æ
+  // æª¢æŸ¥ä¸€å€‹æ£‹å­æ˜¯å¦å¯ä»¥æ•ç²å¦ä¸€å€‹æ£‹å­çš„å‡½æ•¸
   bool canCapture(int startRow, int startCol, int endRow, int endCol) {
     ChessPiece *attacker = board[startRow][startCol];
     ChessPiece *target = board[endRow][endCol];
 
-    // ½T«O§ğÀ»ªÌ¦s¦b
+    // ç¢ºä¿æ”»æ“Šè€…å­˜åœ¨
     if (!attacker)
       return false;
 
-    // ½T«O¥Ø¼Ğ¦s¦b¥BÃC¦â¬Û¤Ï
+    // ç¢ºä¿ç›®æ¨™å­˜åœ¨ä¸”é¡è‰²ç›¸å
     if (target && attacker->isWhite() == target->isWhite()) {
       cout << "Can't capture piece with the same color!" << endl;
       return false;
@@ -352,25 +352,25 @@ public:
     }
 
     if (!canCapture(startRow, startCol, endRow, endCol)) {
-      return false; // ¦pªG°»´ú¨ì¤Í­x¤õ¤O¡A«hªı¤î²¾°Ê
+      return false; // å¦‚æœåµæ¸¬åˆ°å‹è»ç«åŠ›ï¼Œå‰‡é˜»æ­¢ç§»å‹•
     }
 
-    delete board[endRow][endCol];        // ²¾°£¥Ø¼Ğ°Ï¶ô¡]¦pªG¦s¦b¡^
-    board[endRow][endCol] = piece;       // ±N´Ñ¤l²¾°Ê¨ì¥Ø¼Ğ
-    board[startRow][startCol] = nullptr; // ²M°£°_©l¤è¶ô
+    delete board[endRow][endCol];        // ç§»é™¤ç›®æ¨™å€å¡Šï¼ˆå¦‚æœå­˜åœ¨ï¼‰
+    board[endRow][endCol] = piece;       // å°‡æ£‹å­ç§»å‹•åˆ°ç›®æ¨™
+    board[startRow][startCol] = nullptr; // æ¸…é™¤èµ·å§‹æ–¹å¡Š
     return true;
   }
 
   bool isKingInCheck(bool isWhite) {
     int kingRow = -1, kingCol = -1;
 
-    //§ä¨ì°ê¤ıªº¦ì¸m
+    //æ‰¾åˆ°åœ‹ç‹çš„ä½ç½®
     for (int i = 0; i < 8; ++i) {
       for (int j = 0; j < 8; ++j) {
         ChessPiece *piece = board[i][j];
 
-        // °ÊºA±j¨îÂà´«¥i·Ç½TÀË¬d«ü¼Ğ¬O§_¹ê»Ú«ü¦V°ê¤ı
-		//§_«h¦^¶Ç nullptr
+        // å‹•æ…‹å¼·åˆ¶è½‰æ›å¯æº–ç¢ºæª¢æŸ¥æŒ‡æ¨™æ˜¯å¦å¯¦éš›æŒ‡å‘åœ‹ç‹
+		//å¦å‰‡å›å‚³ nullptr
         if (piece && piece->isWhite() == isWhite &&
             dynamic_cast<King *>(piece)) {
           kingRow = i;
@@ -385,7 +385,7 @@ public:
       return false;
     }
 
-    // ÀË¬d¬O§_¦³¥ô¦ó¹ï¤â´Ñ¤l¥i¥H²¾°Ê¨ì°ê¤ıªº¦ì¸m
+    // æª¢æŸ¥æ˜¯å¦æœ‰ä»»ä½•å°æ‰‹æ£‹å­å¯ä»¥ç§»å‹•åˆ°åœ‹ç‹çš„ä½ç½®
     for (int i = 0; i < 8; ++i) {
       for (int j = 0; j < 8; ++j) {
         ChessPiece *piece = board[i][j];
@@ -400,7 +400,7 @@ public:
     return false;
   }
 
-  // ÀË¬d²¾°Ê¬O§_¦³®Ä
+  // æª¢æŸ¥ç§»å‹•æ˜¯å¦æœ‰æ•ˆ
   bool hasValidMoves(bool isWhite) {
     for (int i = 0; i < 8; ++i) {
       for (int j = 0; j < 8; ++j) {
@@ -409,14 +409,14 @@ public:
           for (int endRow = 0; endRow < 8; ++endRow) {
             for (int endCol = 0; endCol < 8; ++endCol) {
               if (piece->isValidMove(i, j, endRow, endCol, board)) {
-                // ¼È®É¦æ°Ê¤@¤U
+                // æš«æ™‚è¡Œå‹•ä¸€ä¸‹
                 ChessPiece *temp = board[endRow][endCol];
                 board[endRow][endCol] = piece;
                 board[i][j] = nullptr;
 
                 bool stillInCheck = isKingInCheck(isWhite);
 
-                //ºM¾P²¾°Ê
+                //æ’¤éŠ·ç§»å‹•
                 board[i][j] = piece;
                 board[endRow][endCol] = temp;
 
@@ -438,14 +438,14 @@ public:
   }
 };
 
-// ºŞ²z¹CÀ¸ÅŞ¿èªº¹CÀ¸Ãş
+// ç®¡ç†éŠæˆ²é‚è¼¯çš„éŠæˆ²é¡
 class Game {
   Board board; 
   bool isWhiteTurn =
-      true; // ¥Î©ó°lÂÜ½ü¨ì½Öªº¼Ğ°O¡Gtrue ªí¥Ü¥Õ¤è¡Afalse ªí¥Ü¶Â¤è
+      true; // ç”¨æ–¼è¿½è¹¤è¼ªåˆ°èª°çš„æ¨™è¨˜ï¼štrue è¡¨ç¤ºç™½æ–¹ï¼Œfalse è¡¨ç¤ºé»‘æ–¹
 
 public:
-  // ¶}©l¹CÀ¸´`Àô
+  // é–‹å§‹éŠæˆ²å¾ªç’°
 
   void start() {
     board.printBoard();
@@ -455,59 +455,59 @@ public:
     cout << "ctrl + c -> exit the program" << endl;
     cout << "Good luck!" << endl;
     cout << endl;
-    while (true) { // µL­­´`Àôª½¨ì¥Î¤á°h¥X
-      // Åã¥Ü¥Ø«eª±®aªº¦^¦X
+    while (true) { // ç„¡é™å¾ªç’°ç›´åˆ°ç”¨æˆ¶é€€å‡º
+      // é¡¯ç¤ºç›®å‰ç©å®¶çš„å›åˆ
       cout << (isWhiteTurn ? "White's turn: " : "Black's turn: ");
       cin >> move;
 
-      // °h¥X¹CÀ¸«ü¥O
+      // é€€å‡ºéŠæˆ²æŒ‡ä»¤
       if (move == "quit")
         break;
 
-      // ÅçÃÒ¿é¤J²¾°Ê®æ¦¡
+      // é©—è­‰è¼¸å…¥ç§»å‹•æ ¼å¼
       if (move.length() != 4) {
         cout << "Invalid move format, Try again!" << endl;
-        continue; // ½Ğ¨D·sªº¿é¤J
+        continue; // è«‹æ±‚æ–°çš„è¼¸å…¥
       }
 
-      // ´£¨ú²¾°Ê¸Ô²Ó¸ê°T¡G¶}©l¦ì¸m©Mµ²§ô¦ì¸m
+      // æå–ç§»å‹•è©³ç´°è³‡è¨Šï¼šé–‹å§‹ä½ç½®å’ŒçµæŸä½ç½®
       char startFile = move[0],
-           startRank = move[1];                  // °_©l¤è¶ô¡GÂkÀÉ©M±Æ¦W
-      char endFile = move[2], endRank = move[3]; // µ²§ô¤è¶ô¡G¤å¥ó©Mµ¥¯Å
+           startRank = move[1];                  // èµ·å§‹æ–¹å¡Šï¼šæ­¸æª”å’Œæ’å
+      char endFile = move[2], endRank = move[3]; // çµæŸæ–¹å¡Šï¼šæ–‡ä»¶å’Œç­‰ç´š
 
-      // ±N¤å¥ó¡]¦r¥À¡^©M±Æ¦W¡]¼Æ¦r¡^Âà´«¬°ªO¯Á¤Ş
-      int startRow = startRank - '1'; // ±N±Æ¦WÂà´«¬°±q¹s¶}©lªº¦æ¯Á¤Ş
-      int startCol = startFile - 'a'; // ±NÀÉ®×Âà´«¬°±q¹s¶}©lªº¦C¯Á¤Ş
-      int endRow = endRank - '1';     // ±N±Æ¦WÂà´«¬°±q¹s¶}©lªº¦æ¯Á¤Ş
-      int endCol = endFile - 'a';     // ±NÀÉ®×Âà´«¬°±q¹s¶}©lªº¦C¯Á¤Ş
+      // å°‡æ–‡ä»¶ï¼ˆå­—æ¯ï¼‰å’Œæ’åï¼ˆæ•¸å­—ï¼‰è½‰æ›ç‚ºæ¿ç´¢å¼•
+      int startRow = startRank - '1'; // å°‡æ’åè½‰æ›ç‚ºå¾é›¶é–‹å§‹çš„è¡Œç´¢å¼•
+      int startCol = startFile - 'a'; // å°‡æª”æ¡ˆè½‰æ›ç‚ºå¾é›¶é–‹å§‹çš„åˆ—ç´¢å¼•
+      int endRow = endRank - '1';     // å°‡æ’åè½‰æ›ç‚ºå¾é›¶é–‹å§‹çš„è¡Œç´¢å¼•
+      int endCol = endFile - 'a';     // å°‡æª”æ¡ˆè½‰æ›ç‚ºå¾é›¶é–‹å§‹çš„åˆ—ç´¢å¼•
 
-      // ±N´Ñ¤l®³¨ì°_©l¦ì¸m
+      // å°‡æ£‹å­æ‹¿åˆ°èµ·å§‹ä½ç½®
       ChessPiece *piece = board.getPiece(startRow, startCol);
 
-      // ÀË¬d°_©l¦ì¸m¬O§_¨S¦³´Ñ¤l
+      // æª¢æŸ¥èµ·å§‹ä½ç½®æ˜¯å¦æ²’æœ‰æ£‹å­
       if (piece == nullptr) {
         cout << "No piece at the starting position!" << endl;
-        continue; // ½Ğ¨D·s°Ê§@
+        continue; // è«‹æ±‚æ–°å‹•ä½œ
       }
 
-      // ÀË¬d¸Ó´Ñ¤l¬O§_Äİ©ó·í«eª±®a
+      // æª¢æŸ¥è©²æ£‹å­æ˜¯å¦å±¬æ–¼ç•¶å‰ç©å®¶
       if ((isWhiteTurn && piece->isWhite()) ||
           (!isWhiteTurn && !piece->isWhite())) {
-        // ¹Á¸Õ²¾°Ê¤u¥ó
+        // å˜—è©¦ç§»å‹•å·¥ä»¶
         if (board.movePiece(startRow, startCol, endRow, endCol)) {
-          board.printBoard(); // ¦C¦L§ó·s«áªºªOª¬ºA
+          board.printBoard(); // åˆ—å°æ›´æ–°å¾Œçš„æ¿ç‹€æ…‹
 
-          // ÀË¬d¹ï¤èª±®a¬O§_±N¦º
+          // æª¢æŸ¥å°æ–¹ç©å®¶æ˜¯å¦å°‡æ­»
           if (board.isCheckmate(!isWhiteTurn)) {
             cout << (isWhiteTurn ? "White" : "Black") << " wins by checkmate!"
                  << endl;
-            break; // µ²§ô¹CÀ¸
+            break; // çµæŸéŠæˆ²
           }
 
-          isWhiteTurn = !isWhiteTurn; // ¤Á´«¨ì¨ä¥Lª±®a
+          isWhiteTurn = !isWhiteTurn; // åˆ‡æ›åˆ°å…¶ä»–ç©å®¶
         }
       } else {
-        // ¿ù»~³B²zµ{§Ç
+        // éŒ¯èª¤è™•ç†ç¨‹åº
         cout << "It's " << (isWhiteTurn ? "White's" : "Black's") << " turn!"
              << endl;
       }
