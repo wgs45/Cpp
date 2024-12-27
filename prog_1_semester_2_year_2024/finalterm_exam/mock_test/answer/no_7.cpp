@@ -1,40 +1,36 @@
 #include <iostream>
 using namespace std;
 
-template <class T> class Complex {
+// Define a Complex class
+class Complex {
 private:
-  T real, imaginary;
+  double real;      // Real part of the complex number
+  double imaginary; // Imaginary part of the complex number
 
 public:
-  Complex() {}
-  Complex(T r, T i) {
-    real = r;
-    imaginary = i;
+  // Constructor to initialize real and imaginary parts
+  Complex(double r = 0, double i = 0) : real(r), imaginary(i) {}
+
+  // Overload the + operator to add two complex numbers
+  Complex operator+(const Complex &other) {
+    // Add corresponding real and imaginary parts
+    return Complex(real + other.real, imaginary + other.imaginary);
   }
 
-  Complex<T> operator+(Complex<T> c) {
-    return Complex(this->real + c.real, this->imaginary + c.imaginary);
-  }
-
-  void show() { cout << this->real << ", " << this->imaginary << endl; }
-
-  friend ostream &operator<<(ostream &os, Complex<T> &c) {
-    os << c.real << ", " << c.imaginary;
-    return os;
-  }
+  // Method to display the complex number
+  void show() { cout << real << " + " << imaginary << "i" << endl; }
 };
 
-template <class T> void show(Complex<T> c) {
-  cout << c.real << ", " << c.imaginary << endl;
-}
-
 int main() {
-  Complex<double> set_1(3.5, 2.4);
-  Complex<double> set_2(4.5, 2.3);
-  Complex<double> set_3;
+  // Create two complex number objects
+  Complex ia(3.5, 2.4); // Complex number 3.5 + 2.4i
+  Complex ib(4.5, 2.3); // Complex number 4.5 + 2.3i
 
-  set_3 = set_1 + set_2;
-  cout << set_3 << endl;
+  // Add the two complex numbers using the overloaded + operator
+  Complex ic = ia + ib;
+
+  // Display the result
+  ic.show(); // Output will be: 8.0 + 4.7i
 
   return 0;
 }

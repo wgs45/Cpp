@@ -5,9 +5,12 @@ using namespace std;
 int main() {
   set<double> s;
   double a;
+
+  cout << "Input (ctrl+d to exit): " << endl;
   while (cin >> a) {
     s.insert(a);
   }
+
   set<double>::iterator it;
   it = s.begin();
   double total = 0;

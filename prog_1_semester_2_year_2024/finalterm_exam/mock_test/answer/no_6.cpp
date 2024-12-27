@@ -2,45 +2,53 @@
 #include <map>
 using namespace std;
 
-// Template class Car
-template <typename T> class Car {
+// Template class Car to hold position of type T
+template <class T> class Car {
 public:
-  T pos;
+  T pos; // Position of the car
 
-  Car(T position = T()) : pos(position) {}
+  // Constructor to initialize position
+  Car(T p) : pos(p) {}
+
+  // Default constructor (needed for insertion in std::map)
+  Car() : pos(0) {}
 };
 
-// Function to search for a car in the map
+// Function to search for a car by its position
+// Returns the car ID if found, otherwise returns -1
 template <typename T>
-int searchCar(const map<int, Car<T>> &carMap, T targetPos) {
-  for (const auto &pair : carMap) {
-    if (pair.second.pos == targetPos) {
-      return pair.first; // Return the key if found
+int searchCar(const std::map<int, Car<T>> &myMap, T target) {
+  for (const auto &pair : myMap) {
+    if (pair.second.pos == target) {
+      return pair.first; // Return car ID if position matches
     }
   }
   return -1; // Return -1 if not found
 }
 
 int main() {
-  map<int, Car<double>> carMap;
+  // Create a map to store cars with their IDs
+  std::map<int, Car<double>> myMap;
 
+  // Add 10 Car objects with positions from 0.0 to 9.9
   for (int i = 0; i < 10; ++i) {
-    carMap[i] = Car<double>(i * 1.1); // Set pos to 0.0, 1.1, 2.2, ...
+    myMap[i] = Car<double>(i * 1.1); // Assign positions as multiples of 1.1
   }
 
-  // Input target
-  cout << "Enter the target position to search: ";
-  double targetPos;
-  cin >> targetPos;
+  // Prompt user to enter a target value
+  double target;
+  cout << "Enter a position to search for: ";
+  cin >> target;
 
-  // Search function
-  int result = searchCar(carMap, targetPos);
+  // Search for the car with the given position
+  int result = searchCar(myMap, target);
 
-  // Output
-  if (result != -1) {
-    cout << "Car found at key: " << result << endl;
+  // Print the result
+  if (result == -1) {
+    cout << "Car with position " << target << " not found." << endl;
   } else {
-    cout << "Car with position " << targetPos << " not found." << endl;
+    cout << "Car with position " << target << " found. Car ID: " << result
+         << endl;
   }
 
   return 0;
