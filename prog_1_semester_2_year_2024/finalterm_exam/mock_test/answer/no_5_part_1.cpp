@@ -26,5 +26,10 @@ int main() {
   myList.push_back(c);
   show(myList);
 
+  // Clean up memory
+  delete a;
+  delete b;
+  delete c;
+
   return 0;
 }
