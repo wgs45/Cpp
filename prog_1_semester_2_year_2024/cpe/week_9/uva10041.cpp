@@ -3,32 +3,34 @@
 using namespace std;
 
 int main() {
-  int r, a[500], t, j, temp, median;
-  int sum;
+  int caseNum, r[500], streetNum, temp, median, sum;
 
-  cin >> r;
+  cin >> caseNum;
 
-  while (r--) {
-    int i = 0;
+  while (caseNum--) {
+    int i = 0, j = 0;
 
-    cin >> t;
+    cin >> streetNum;
 
-    for (i = 0; i < t; i++) {
-      cin >> a[i];
+    for (i = 0; i < streetNum; i++) {
+      cin >> r[i];
     }
 
-    for (i = 0; i < t; i++)
-      for (j = 0; j < t - i - 1; j++)
-        if (a[j] > a[j + 1]) {
-          temp = a[j];
-          a[j] = a[j + 1];
-          a[j + 1] = temp;
+    for (i = 0; i < streetNum; i++) {
+      for (j = 0; j < streetNum - i - 1; j++) {
+        if (r[j] > r[j + 1]) {
+          temp = r[j];
+          r[j] = r[j + 1];
+          r[j + 1] = temp;
         }
+      }
+    }
     sum = 0;
-    median = a[t / 2];
+    median = r[streetNum / 2];
 
-    for (i = 0; i < t; i++)
-      sum += abs(a[i] - median);
+    for (i = 0; i < streetNum; i++) {
+      sum += abs(r[i] - median);
+    }
     cout << sum << endl;
   }
 
