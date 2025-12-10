@@ -22,7 +22,7 @@ int main() {
     cout << n << " = ";
 
     int num = n;
-    bool started = false; // To control zeros aftere first 1
+    bool started = false; // To control zeros after first 1
 
     // 2. Greedy from largest fibonacci number
     for (int i = 39; i >= 2; i--) {
