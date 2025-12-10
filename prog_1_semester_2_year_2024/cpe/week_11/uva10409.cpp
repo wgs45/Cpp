@@ -44,4 +44,5 @@ int main() {
 
     cout << top << "\n";
   }
+  return 0;
 }

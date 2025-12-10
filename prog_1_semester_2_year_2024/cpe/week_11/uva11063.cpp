@@ -40,4 +40,6 @@ int main() {
     else
       cout << "It is not a B2-Sequence.\n\n";
   }
+
+  return 0;
 }
